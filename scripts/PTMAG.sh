@@ -1,3 +1,4 @@
+#!/bin/bash
 #Author Notes
 #echo -e is used for escape functionality, also -n is added for no new line at end of line, and \r is so that there is no carriage return.
 #figlet will need to be installed as well as an additional non-default fault called larry3d.flf, MAKE SURE YOU MAKE A SETUP.SH!!!!
@@ -9,10 +10,29 @@ GREEN='\033[01;32m'
 BLUE='\033[01;34m'
 YELLOW='\033[01;33m'
 
+#Menu variables
+finished="${GREEN}Complete${NC}"
+working="${YELLOW}Work in progress${NC}"
+upgrade="${BLUE}Future Upgrade${NC}"
+unsupported="${RED}Module not yet added${NC}"
+
+#main page elements
+main_page="Main"
+main_page_list=("Enumeration" "Exploitation" "Privilege Escalation" "Post-Exploitation/Information Gathering" "Quit" )
+main_keys=($main_page_list[0]=$working $main_page_list[1]=$upgrade $main_page_list[2]=$unsupported $main_page_list[3]=$unsupported $main_page_list[4]="")
 #Global functions
+#menu_func (page, page_list, keys) {
+#  printf "$page Menu:"
+#  for item in ${$page_list}; do
+#      printf "$((item+1)). ${$page_list[item]}: ${$keys[$item]}";
+#  printf "Select a number and press [Enter]: "
+#  read number
+#}
 option () {
-  echo -n "Select a number and press [Enter]: "
-  read number;
+  printf "Select a number and press [Enter]: "
+#  echo -n "Select a number and press [Enter]: "
+  read number
+return $number;
 }
 valid_option () {
   echo -ne "Please select a valid option.\r";
@@ -40,12 +60,6 @@ echo -ne "Welcome to Wi1d5a1m0N's Penetration Tester's Manual Attack Guide\n\n"
 echo -ne "This guide is not the end all, be all, but I will certainly try my hardest.\n"
 echo -ne "This is a work in progress, so updates will be following. This guide will give\nan idea on where to start with your pen-testing methodologies, process, and provide\nsample commands, resource links, and ideas to think about when you are testing a\nsystem.\n\n"
 
-#Menu variables
-finished="${GREEN}Complete${NC}"
-working="${YELLOW}Work in progress${NC}"
-upgrade="${BLUE}Future Upgrade${NC}"
-unsupported="${RED}Module not yet added${NC}"
-
 #Start Enum methods menu function
 enum_methods () {
   clear
@@ -66,8 +80,7 @@ enum_methods () {
 enum_help () {
   clear
   enum_help_question () {
-    echo -n "Select a number and press [Enter]: "
-    read number;
+    option
     if [ $number == 1 ]
     then
       enum_menu
@@ -124,19 +137,21 @@ enum_menu () {
 #Start Main Menu Function here
 main_menu () {
   main_question () {
-    echo -n "What step are you on? Select a number and press [Enter]: "
-    read step;
-    if [ $step == 1 ]
+    option
+    if [ $number == 1 ]
     then
       enum_menu
-    elif [ $step == 5 ]
+    elif [ $number == 5 ]
     then
       exit 0
-    else
-      echo -ne "Module not added yet! Standby for upgrades...\r"
+    elif [ $number == 2 ] || [ $number == 3 ] || [ $number == 4 ]
+    then
+      printf "Module not added yet! Standby for upgrades...\n"
       sleep 2
       main_question
-    fi
+    else
+      valid_option
+    fi;
   }
   echo "Main Menu:"
   echo -e "1. Enumeration: $working"
@@ -145,13 +160,5 @@ main_menu () {
   echo -e "4. Post-Exploitation/Information Gathering: $unsupported";
   echo -e "5. Quit\n";
   main_question
-#  if [ $step == 1 ]
-#  then
-#    enum_menu
-#  else
-#    echo "That module has not been added yet! Standby for upgrades...\r";
-#    sleep 2
-#    question
-#  fi
 }
 main_menu
