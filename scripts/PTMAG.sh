@@ -1,4 +1,8 @@
-#Global Color Variables
+#Author Notes
+#echo -e is used for escape functionality, also -n is added for no new line at end of line, and \r is so that there is no carriage return.
+#figlet will need to be installed as well as an additional non-default fault called larry3d.flf, MAKE SURE YOU MAKE A SETUP.SH!!!!
+
+#Global Variables
 RED='\033[01;31m'
 NC='\033[01;0m'
 GREEN='\033[01;32m'
@@ -6,11 +10,14 @@ BLUE='\033[01;34m'
 YELLOW='\033[01;33m'
 
 #Global functions
+option () {
+  echo -n "Select a number and press [Enter]: "
+  read number;
+}
 valid_option () {
   echo -ne "Please select a valid option.\r";
 }
 
-#Figlet will need to be installed by user unless dependency added
 #Loading Prompt Here
 echo -e "${RED}"
 figlet -t -f larry3d.flf "Wi1d5a1m0N"
@@ -34,9 +41,26 @@ echo -ne "This guide is not the end all, be all, but I will certainly try my har
 echo -ne "This is a work in progress, so updates will be following. This guide will give\nan idea on where to start with your pen-testing methodologies, process, and provide\nsample commands, resource links, and ideas to think about when you are testing a\nsystem.\n\n"
 
 #Menu variables
-working="${GREEN}Work in progress${NC}"
+finished="${GREEN}Complete${NC}"
+working="${YELLOW}Work in progress${NC}"
 upgrade="${BLUE}Future Upgrade${NC}"
-unsupported="${YELLOW}Module not yet added${NC}"
+unsupported="${RED}Module not yet added${NC}"
+
+#Start Enum methods menu function
+enum_methods () {
+  clear
+  enum_methods_question () {
+    option
+  }
+  echo -e "${GREEN}Generally in a penetration test you would start with open-source/passive reconnaissance. I may or may not add information on that.\nAs of this version, clearly there is no support for it yet.${NC}\n\n"
+  echo -e "Enumeration Methods Menu:"
+  echo -e "1. IP/Network Enumeration: $working"
+  echo -e "2. Port Scanning: $unsupported"
+  echo -e "3. Service Enumeration: $unsupported"
+  echo -e "4. OS Enumeration: $unsupported"
+  echo -e "5. Previous Menu\n"
+  enum_methods_question
+}
 
 #Start Enum help menu function
 enum_help () {
@@ -57,8 +81,14 @@ enum_help () {
       enum_help_question
     fi
   }
-  echo -e "When all else fails here are some ideas that can help:\n+ Google is your friend\n+ Take a break, step back, refresh\n+ Talk your situation out with a peer\n+ Youtube is also a good resource\n\n "
-  echo -e "Enumeration Help Menu: \n1. Previous Menu\n2. Main Menu"
+  echo -e "${GREEN}Take heart you have not truly failed until you have given up...so, like many, before have said, TRY HARDER!!!${NC}\n\n"
+  echo -e "When all else fails here are some ideas that can help: "
+  echo -e "${GREEN}[+]${NC} Google is your friend --> https://www.google.com/"
+  echo -e "${GREEN}[+]${NC} Take a break, step back, refresh, try a more simple approach"
+  echo -e "${GREEN}[+]${NC} Talk your situation out with a peer"
+  echo -e "${GREEN}[+]${NC} Youtube is also a good resource, specifically IppSec --> https://www.youtube.com/channel/UCa6eh7gCkpPo5XXUDfygQQA"
+  echo -e "${GREEN}[+]${NC} Revert the system and start over  --> This is only if you have the ability (i.e. virtual labs)\n\n"
+  echo -e "Enumeration Help Menu: \n1. Previous Menu\n2. Main Menu\n"
   enum_help_question
 }
 #Start Enumeration Menu Function here
@@ -86,7 +116,7 @@ enum_menu () {
   echo -e "${GREEN}Enumerate, Enumerate, Enumerate!!!\nWhen you think you have enumerated all you can, enumerate more...${NC}\n"
   echo "Enumeration Menu:"
   echo -e "1. Where to start: $working"
-  echo -e "2. I've done everything! What now!?!: $upgrade"
+  echo -e "2. I've done everything! What now!?!: $finished"
   echo -e "3. Main Menu\n"
   enum_question
 }
@@ -99,6 +129,9 @@ main_menu () {
     if [ $step == 1 ]
     then
       enum_menu
+    elif [ $step == 5 ]
+    then
+      exit 0
     else
       echo -ne "Module not added yet! Standby for upgrades...\r"
       sleep 2
@@ -109,7 +142,8 @@ main_menu () {
   echo -e "1. Enumeration: $working"
   echo -e "2. Exploitation: $upgrade"
   echo -e "3. Privilege Escalation: $unsupported"
-  echo -e "4. Post-Exploitation/Information Gathering: $unsupported\n\n";
+  echo -e "4. Post-Exploitation/Information Gathering: $unsupported";
+  echo -e "5. Quit\n";
   main_question
 #  if [ $step == 1 ]
 #  then
