@@ -16,5 +16,8 @@ Into my head pops this idea. I will be planning out this bash script, adding ide
 ### P.S.
 Again this is a work in progress, so please excuse the mess, the lack of support, and the lack of material. I will be adding everything as fast and as efficient as I can. Thanks for your understanding fellow Pen-Testers!
 
+### Setup
+This script requires figlet be installed, run the setup.sh and it will auto install figlet and the required font appropriately.
+
 #### Wi1d5a1m0N, OSCP
 #### "Try harder, but also...try smarter."
