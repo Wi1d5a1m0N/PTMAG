@@ -1,3 +1,4 @@
+![alt text](https://wi1d5a1m0nhome.files.wordpress.com/2019/06/offsec-student-certified-emblem-rgb-oscp.png)
 # PTMAG
 ## The Penetration Tester's Manual Attack Guide
 
